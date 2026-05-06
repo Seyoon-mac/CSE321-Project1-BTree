@@ -1,0 +1,8 @@
+experiment_m3
+experiment_m5
+experiment_m10
+debug_m3
+debug_m5
+debug_m10
+*.o
+.DS_Store

@@ -1,0 +1,4 @@
+tree,M,insert_time_ms,search_mean_us,range_time_ms,delete_time_ms,splits,utilization,height,node_count,range_count,male_count,avg_gpa,avg_height
+BTree,10,17.2113,0.104008,0.565208,0.252417,7709,0.669856,5,7700,14317,7215,3.27847,174.058
+BStarTree,10,18.7169,0.102138,0.434916,0.493208,6410,0.804078,5,6415,14317,7215,3.27847,174.058
+BPlusTree,10,17.974,0.095575,0.221417,0.25375,8079,0.638037,5,8084,14317,7215,3.27847,174.058
