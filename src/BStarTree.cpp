@@ -412,50 +412,16 @@ void insertKey(int key, int rid){
             break;
         }
 
-        // redistribute 불가 → splitTwoToThree
+        // redistribute 불가 → 2-to-3 split
         // cur 은 overflow(max_keys +1) 상태, 인접 sibling 은 max_keys
-        // splitTwoToThree 는 left, right 둘 다 꽉 찬 상태를 가정하므로
-        // cur 의 임시 overflow key 를 먼저 정상 범위로 되돌린 뒤 호출
-        // → splitTwoToThree 내부에서 totalKeys 를 left+right+1 로 계산하므로
-        //   cur->cnt_key == max_keys +1 이면 totalKeys 가 달라짐
-        // 따라서 cur 을 먼저 표준 1-to-2 split 으로 처리한 뒤 parent 에 key 를 올림
-        // 이 방식이 bottom-up 에서 가장 안전함
-        {
-            BStarNode* newSibling = createBStarNode(cur->leaf);
-            split_count++;
-            int mid = cur->cnt_key /2;
-            int middleKey = cur->keys[mid];
-            int middleRid = cur->rids[mid];
-
-            newSibling->cnt_key = cur->cnt_key - mid -1;
-            for (int j = 0; j < newSibling->cnt_key; j++){
-                newSibling->keys[j] = cur->keys[mid +1 +j];
-                newSibling->rids[j] = cur->rids[mid +1 +j];
-            }
-            if (!cur->leaf){
-                for (int j = 0; j <= newSibling->cnt_key; j++){
-                    newSibling->child[j] = cur->child[mid +1 +j];
-                }
-                newSibling->cnt_child = newSibling->cnt_key +1;
-            }
-            cur->cnt_key = mid;
-            if (!cur->leaf){
-                cur->cnt_child = cur->cnt_key +1;
-            }
-
-            // parent 에 middleKey 삽입, newSibling 연결
-            for (int j = parent->cnt_key; j >= idx +1; j--){
-                parent->child[j+1] = parent->child[j];
-            }
-            parent->child[idx +1] = newSibling;
-            for (int j = parent->cnt_key -1; j >= idx; j--){
-                parent->keys[j+1] = parent->keys[j];
-                parent->rids[j+1] = parent->rids[j];
-            }
-            parent->keys[idx] = middleKey;
-            parent->rids[idx] = middleRid;
-            parent->cnt_key++;
-            parent->cnt_child = parent->cnt_key +1;
+        // splitTwoToThree 의 totalKeys 계산이 left->cnt_key + right->cnt_key +1 이므로
+        // overflow 노드를 그대로 넘기면 totalKeys = (max_keys+1) + max_keys +1 = 2*max_keys+2
+        // 이를 3등분해도 각 노드 크기가 배열 범위 안에 들어옴 (검증 완료)
+        if (idx < parent->cnt_key){
+            splitTwoToThree(parent, idx);
+        }
+        else{
+            splitTwoToThree(parent, idx -1);
         }
         cur = parent;
     }

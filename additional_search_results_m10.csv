@@ -1,0 +1,7 @@
+tree,M,query_type,search_mean_us,found_count
+BTree,10,Successful,0.104154,10000
+BTree,10,Unsuccessful,0.043675,0
+BStarTree,10,Successful,0.0977584,10000
+BStarTree,10,Unsuccessful,0.0441542,0
+BPlusTree,10,Successful,0.100883,10000
+BPlusTree,10,Unsuccessful,0.0360333,0
