@@ -1,15 +1,3 @@
-아래가 README.md 최종 수정본이야.
-수정 반영한 것:
-
-* Experiment.h 제거
-* 추가 실험 additional_main.cpp 설명 추가
-* 추가 실험 compile/run 방법 추가
-* plotting script 설명 추가
-* generated files에 추가 실험 결과/그래프 반영
-* 기본 실험과 추가 실험이 구분되도록 정리
-
-그대로 README.md에 붙여넣으면 돼.
-
 # CSE321 Project 1 - Implementation and Analysis of B-tree Index Structures
 ## 1. Overview
 This project implements and evaluates three tree-based index structures:
